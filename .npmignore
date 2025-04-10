@@ -1,0 +1,49 @@
+# Source files (only dist is needed)
+src/
+!dist/
+
+# Development files
+.git/
+.github/
+.gitignore
+.npmignore
+.editorconfig
+.prettierrc
+.eslintrc
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+
+# Test files
+__tests__/
+*.spec.ts
+*.test.ts
+coverage/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Development dependencies
+node_modules/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+
+# TypeScript
+*.tsbuildinfo

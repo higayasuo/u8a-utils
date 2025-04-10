@@ -1,0 +1,49 @@
+{
+  "name": "u8a-utils",
+  "version": "1.0.0",
+  "description": "Utilities for Uint8Array",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "uint8array",
+    "utils",
+    "typescript"
+  ],
+  "author": "higayasuo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/higayasuo/u8a-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/higayasuo/u8a-utils/issues"
+  },
+  "homepage": "https://github.com/higayasuo/u8a-utils#readme",
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitest/coverage-v8": "^3.1.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6",
+    "vite-plugin-dts": "^3.7.3",
+    "vitest": "^3.1.1"
+  }
+}
