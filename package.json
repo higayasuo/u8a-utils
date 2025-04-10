@@ -1,7 +1,7 @@
 {
   "name": "u8a-utils",
   "version": "1.0.0",
-  "description": "Utilities for Uint8Array",
+  "description": "A collection of utility functions for working with Uint8Arrays in TypeScript",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
