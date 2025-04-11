@@ -21,8 +21,13 @@ import {
 // Concatenate multiple Uint8Arrays
 const arr1 = new Uint8Array([1, 2, 3]);
 const arr2 = new Uint8Array([4, 5, 6]);
-const result = concatUint8Arrays([arr1, arr2]);
+const result = concatUint8Arrays(arr1, arr2);
 // result: Uint8Array [1, 2, 3, 4, 5, 6]
+
+// You can also use the spread operator with an array
+const arrays = [arr1, arr2];
+const result2 = concatUint8Arrays(...arrays);
+// result2: Uint8Array [1, 2, 3, 4, 5, 6]
 
 // Compare two Uint8Arrays
 const isEqual = compareUint8Arrays(arr1, arr2);
@@ -40,13 +45,13 @@ writeUInt32BE(buf, 0x12345678);
 
 ## API
 
-### concatUint8Arrays(arrays: Uint8Array[]): Uint8Array
+### concatUint8Arrays(...arrays: Uint8Array[]): Uint8Array
 
 Concatenates multiple Uint8Arrays into a single Uint8Array.
 
 #### Parameters
 
-- `arrays`: Array of Uint8Arrays to concatenate
+- `...arrays`: Variable number of Uint8Arrays to concatenate
 
 #### Returns
 
