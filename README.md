@@ -16,6 +16,8 @@ import {
   compareUint8Arrays,
   uint64BE,
   writeUInt32BE,
+  fromHex,
+  toHex,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -41,6 +43,14 @@ const uint64Value = uint64BE(0x1234567890000000);
 const buf = new Uint8Array(4);
 writeUInt32BE(buf, 0x12345678);
 // buf: Uint8Array [18, 52, 86, 120]
+
+// Convert Uint8Array to hexadecimal string
+const hex = toHex(new Uint8Array([0x0a, 0x1b, 0x2c]));
+// hex: "0a1b2c"
+
+// Convert hexadecimal string to Uint8Array
+const bytes = fromHex('0a1b2c');
+// bytes: Uint8Array [10, 27, 44]
 ```
 
 ## API
@@ -95,6 +105,34 @@ Writes a 32-bit unsigned integer to a Uint8Array in big-endian format.
 #### Throws
 
 - `RangeError` if the value is not in the range [0, MAX_INT32 - 1]
+
+### toHex(value: Uint8Array): string
+
+Converts a Uint8Array to a hexadecimal string.
+
+#### Parameters
+
+- `value`: The Uint8Array to convert
+
+#### Returns
+
+A string representing the hexadecimal value of the input Uint8Array
+
+### fromHex(value: string): Uint8Array
+
+Converts a hexadecimal string to a Uint8Array.
+
+#### Parameters
+
+- `value`: The hexadecimal string to convert
+
+#### Returns
+
+A Uint8Array representing the value of the input hexadecimal string
+
+#### Throws
+
+- `Error` if the input string is not a valid hexadecimal string
 
 ## Development
 
