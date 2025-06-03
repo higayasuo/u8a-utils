@@ -13,7 +13,7 @@ describe('fromB64U', () => {
   });
 
   it('converts URL-safe Base64 with special characters to Uint8Array', () => {
-    const input = '_-79_A';
+    const input = '__79_A';
     expect(fromB64U(input)).toEqual(new Uint8Array([255, 254, 253, 252]));
   });
 
@@ -49,5 +49,11 @@ describe('fromB64U', () => {
     const b64u = toB64U(original);
     const result = fromB64U(b64u);
     expect(result).toEqual(original);
+  });
+
+  it('decodes Base64url string with "-" character to Uint8Array', () => {
+    // The byte 251 (0xfb) in standard Base64 is '+w==', in Base64url is '-w=='
+    const input = '-w';
+    expect(fromB64U(input)).toEqual(new Uint8Array([251]));
   });
 });
