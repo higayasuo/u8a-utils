@@ -15,6 +15,7 @@ import {
   concatUint8Arrays,
   compareUint8Arrays,
   uint64BE,
+  uint32BE,
   writeUInt32BE,
   fromHex,
   toHex,
@@ -36,15 +37,21 @@ const result2 = concatUint8Arrays(...arrays);
 // Compare two Uint8Arrays
 const isEqual = compareUint8Arrays(arr1, arr2);
 // isEqual: false
+const isEqual2 = compareUint8Arrays(arr1, new Uint8Array([1, 2, 3]));
+// isEqual2: true
 
-// Convert a number to a 64-bit Uint8Array in big-endian format
-const uint64Value = uint64BE(0x1234567890000000);
-// uint64Value: Uint8Array [18, 52, 86, 120, 144, 0, 0, 0]
+// Convert a number to a 64-bit Uint8Array in big-endian format (safe value)
+const uint64Value = uint64BE(0x12345678);
+// uint64Value: Uint8Array [0x00, 0x00, 0x00, 0x00, 0x12, 0x34, 0x56, 0x78]
+
+// Convert a number to a 32-bit Uint8Array in big-endian format
+const uint32Value = uint32BE(0x12345678);
+// uint32Value: Uint8Array [0x12, 0x34, 0x56, 0x78]
 
 // Write a 32-bit unsigned integer to a Uint8Array in big-endian format
 const buf = new Uint8Array(4);
 writeUInt32BE(buf, 0x12345678);
-// buf: Uint8Array [18, 52, 86, 120]
+// buf: Uint8Array [0x12, 0x34, 0x56, 0x78]
 
 // Convert Uint8Array to hexadecimal string
 const hex = toHex(new Uint8Array([0x0a, 0x1b, 0x2c]));
@@ -101,6 +108,22 @@ Converts a 64-bit unsigned integer to a Uint8Array in big-endian format.
 #### Returns
 
 A Uint8Array containing the 64-bit value in big-endian format
+
+### uint32BE(value: number): Uint8Array
+
+Converts a 32-bit unsigned integer to a Uint8Array in big-endian format.
+
+#### Parameters
+
+- `value`: The 32-bit unsigned integer to convert
+
+#### Returns
+
+A Uint8Array containing the 32-bit value in big-endian format
+
+#### Throws
+
+- `RangeError` if the value is not in the range [0, 0xffffffff]
 
 ### writeUInt32BE(u8array: Uint8Array, value: number, offset?: number): void
 
