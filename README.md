@@ -14,13 +14,13 @@ npm install u8a-utils
 import {
   concatUint8Arrays,
   compareUint8Arrays,
-  uint64BE,
-  uint32BE,
+  toUint64BE,
+  toUint32BE,
   writeUInt32BE,
   fromHex,
   toHex,
-  toB64u,
-  fromB64u,
+  toB64U,
+  fromB64U,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -41,11 +41,11 @@ const isEqual2 = compareUint8Arrays(arr1, new Uint8Array([1, 2, 3]));
 // isEqual2: true
 
 // Convert a number to a 64-bit Uint8Array in big-endian format (safe value)
-const uint64Value = uint64BE(0x12345678);
+const uint64Value = toUint64BE(0x12345678);
 // uint64Value: Uint8Array [0x00, 0x00, 0x00, 0x00, 0x12, 0x34, 0x56, 0x78]
 
 // Convert a number to a 32-bit Uint8Array in big-endian format
-const uint32Value = uint32BE(0x12345678);
+const uint32Value = toUint32BE(0x12345678);
 // uint32Value: Uint8Array [0x12, 0x34, 0x56, 0x78]
 
 // Write a 32-bit unsigned integer to a Uint8Array in big-endian format
@@ -62,11 +62,11 @@ const bytes = fromHex('0a1b2c');
 // bytes: Uint8Array [10, 27, 44]
 
 // Convert Uint8Array to URL-safe Base64 string
-const b64u = toB64u(new Uint8Array([1, 2, 3, 4]));
+const b64u = toB64U(new Uint8Array([1, 2, 3, 4]));
 // b64u: "AQIDBA"
 
 // Convert URL-safe Base64 string to Uint8Array
-const bytes2 = fromB64u('AQIDBA');
+const bytes2 = fromB64U('AQIDBA');
 // bytes2: Uint8Array [1, 2, 3, 4]
 ```
 
@@ -97,7 +97,7 @@ Compares two Uint8Arrays for equality.
 
 `true` if the arrays are equal (same length and values), `false` otherwise
 
-### uint64BE(value: number): Uint8Array
+### toUint64BE(value: number): Uint8Array
 
 Converts a 64-bit unsigned integer to a Uint8Array in big-endian format.
 
@@ -109,7 +109,7 @@ Converts a 64-bit unsigned integer to a Uint8Array in big-endian format.
 
 A Uint8Array containing the 64-bit value in big-endian format
 
-### uint32BE(value: number): Uint8Array
+### toUint32BE(value: number): Uint8Array
 
 Converts a 32-bit unsigned integer to a Uint8Array in big-endian format.
 
@@ -167,7 +167,7 @@ A Uint8Array representing the value of the input hexadecimal string
 
 - `Error` if the input string is not a valid hexadecimal string
 
-### toB64u(value: Uint8Array): string
+### toB64U(value: Uint8Array): string
 
 Converts a Uint8Array to a URL-safe Base64 string.
 
@@ -179,7 +179,7 @@ Converts a Uint8Array to a URL-safe Base64 string.
 
 A URL-safe Base64 string (using '-' and '\_' instead of '+' and '/', and without padding)
 
-### fromB64u(value: string): Uint8Array
+### fromB64U(value: string): Uint8Array
 
 Converts a URL-safe Base64 string to a Uint8Array.
 

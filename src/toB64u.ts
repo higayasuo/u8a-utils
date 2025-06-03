@@ -10,7 +10,7 @@ import { fromByteArray } from 'base64-js';
  * @param {Uint8Array} u8a - The Uint8Array to convert
  * @returns {string} A URL-safe Base64 encoded string
  */
-export const toB64u = (u8a: Uint8Array) => {
+export const toB64U = (u8a: Uint8Array) => {
   return fromByteArray(u8a)
     .replace(/\+/g, '-')
     .replace(/\//g, '_')

@@ -10,7 +10,7 @@ import { toByteArray } from 'base64-js';
  * @param {string} b64u - The URL-safe Base64 string to convert
  * @returns {Uint8Array} The decoded Uint8Array
  */
-export const fromB64u = (b64u: string) => {
+export const fromB64U = (b64u: string) => {
   const base64 = b64u.replace(/-/g, '+').replace(/_/g, '/');
   const padding = base64.length % 4;
   const padded = padding ? base64 + '='.repeat(4 - padding) : base64;

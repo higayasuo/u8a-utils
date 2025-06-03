@@ -6,7 +6,7 @@ import { writeUInt32BE } from './writeUInt32BE';
  * @param value The 64-bit unsigned integer to convert.
  * @returns A Uint8Array containing the 64-bit value in big-endian format.
  */
-export const uint64BE = (value: number) => {
+export const toUint64BE = (value: number) => {
   const high = Math.floor(value / MAX_INT32);
   const low = value % MAX_INT32;
   const buf = new Uint8Array(8);
