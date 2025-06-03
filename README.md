@@ -18,6 +18,8 @@ import {
   writeUInt32BE,
   fromHex,
   toHex,
+  toB64u,
+  fromB64u,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -51,6 +53,14 @@ const hex = toHex(new Uint8Array([0x0a, 0x1b, 0x2c]));
 // Convert hexadecimal string to Uint8Array
 const bytes = fromHex('0a1b2c');
 // bytes: Uint8Array [10, 27, 44]
+
+// Convert Uint8Array to URL-safe Base64 string
+const b64u = toB64u(new Uint8Array([1, 2, 3, 4]));
+// b64u: "AQIDBA"
+
+// Convert URL-safe Base64 string to Uint8Array
+const bytes2 = fromB64u('AQIDBA');
+// bytes2: Uint8Array [1, 2, 3, 4]
 ```
 
 ## API
@@ -133,6 +143,30 @@ A Uint8Array representing the value of the input hexadecimal string
 #### Throws
 
 - `Error` if the input string is not a valid hexadecimal string
+
+### toB64u(value: Uint8Array): string
+
+Converts a Uint8Array to a URL-safe Base64 string.
+
+#### Parameters
+
+- `value`: The Uint8Array to convert
+
+#### Returns
+
+A URL-safe Base64 string (using '-' and '\_' instead of '+' and '/', and without padding)
+
+### fromB64u(value: string): Uint8Array
+
+Converts a URL-safe Base64 string to a Uint8Array.
+
+#### Parameters
+
+- `value`: The URL-safe Base64 string to convert
+
+#### Returns
+
+A Uint8Array representing the value of the input URL-safe Base64 string
 
 ## Development
 

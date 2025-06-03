@@ -11,10 +11,7 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`,
     },
     rollupOptions: {
-      external: [],
-      output: {
-        globals: {},
-      },
+      external: ['base64-js'],
     },
   },
   plugins: [

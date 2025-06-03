@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-06-03
+
+### Added
+
+- `toB64u`: Converts a Uint8Array to a URL-safe Base64 string
+- `fromB64u`: Converts a URL-safe Base64 string to a Uint8Array
+
 ## [1.0.3] - 2025-05-09
 
 ### Added
