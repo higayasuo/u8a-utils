@@ -13,6 +13,12 @@ import { toByteArray } from 'base64-js';
 export const fromB64U = (b64u: string) => {
   const base64 = b64u.replace(/-/g, '+').replace(/_/g, '/');
   const padding = base64.length % 4;
+
+  if (padding > 0 && base64.charAt(base64.length - 1) === '=') {
+    throw new Error('Invalid Base64 padding');
+  }
+
   const padded = padding ? base64 + '='.repeat(4 - padding) : base64;
+
   return toByteArray(padded);
 };

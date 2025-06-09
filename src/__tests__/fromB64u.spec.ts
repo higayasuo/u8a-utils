@@ -56,4 +56,12 @@ describe('fromB64U', () => {
     const input = '-w';
     expect(fromB64U(input)).toEqual(new Uint8Array([251]));
   });
+
+  it('throws error for invalid padding at the end of the string', () => {
+    expect(() => fromB64U('AQIDBA=')).toThrow('Invalid Base64 padding');
+  });
+
+  it('throws error for invalid padding with multiple padding characters', () => {
+    expect(() => fromB64U('AQIDBA===')).toThrow('Invalid Base64 padding');
+  });
 });
