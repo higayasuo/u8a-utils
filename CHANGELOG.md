@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2025-06-09
+
+### Added
+
+- `isUint8Array`: Checks if a value is a Uint8Array or Uint8Array-like object
+- `ensureUint8Array`: Ensures the input value is a Uint8Array, particularly useful for handling Uint8Array-like objects from certain APIs (e.g., TextEncoder in jsdom environment)
+
 ## [1.0.7] - 2025-06-03
 
 ### Changed

@@ -21,6 +21,8 @@ import {
   toHex,
   toB64U,
   fromB64U,
+  ensureUint8Array,
+  isUint8Array,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -68,6 +70,15 @@ const b64u = toB64U(new Uint8Array([1, 2, 3, 4]));
 // Convert URL-safe Base64 string to Uint8Array
 const bytes2 = fromB64U('AQIDBA');
 // bytes2: Uint8Array [1, 2, 3, 4]
+
+// Check if a value is a Uint8Array or Uint8Array-like object
+const isU8a = isUint8Array(new Uint8Array([1, 2, 3]));
+// isU8a: true
+
+// Ensure a value is a Uint8Array
+const encoded = new TextEncoder().encode('hello');
+const ensured = ensureUint8Array(encoded);
+// ensured: Uint8Array [104, 101, 108, 108, 111]
 ```
 
 ## API
@@ -190,6 +201,30 @@ Converts a URL-safe Base64 string to a Uint8Array.
 #### Returns
 
 A Uint8Array representing the value of the input URL-safe Base64 string
+
+### isUint8Array(value: unknown): value is Uint8Array
+
+Checks if a value is a Uint8Array or Uint8Array-like object.
+
+#### Parameters
+
+- `value`: The value to check
+
+#### Returns
+
+`true` if the value is a Uint8Array or Uint8Array-like object, `false` otherwise
+
+### ensureUint8Array(value: Uint8Array | ArrayLike<number>): Uint8Array
+
+Ensures the input value is a Uint8Array. This function is particularly useful when dealing with Uint8Array-like objects that might be returned by certain APIs (e.g., TextEncoder in jsdom environment).
+
+#### Parameters
+
+- `value`: The input value to ensure as Uint8Array
+
+#### Returns
+
+A Uint8Array representing the input value
 
 ## Development
 
