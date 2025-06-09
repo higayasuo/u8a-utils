@@ -41,4 +41,11 @@ describe('toB64U', () => {
     const input = new Uint8Array([251]);
     expect(toB64U(input)).toBe('-w');
   });
+
+  it('encodes a 32-byte Uint8Array with leading 0 correctly to Base64url', () => {
+    const input = new Uint8Array(32);
+    input[0] = 0;
+    const result = toB64U(input);
+    expect(result).toBe('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  });
 });
