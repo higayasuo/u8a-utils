@@ -16,16 +16,31 @@ describe('toB64U', () => {
     expect(toB64U(input)).toBe('__79_A');
   });
 
-  it('handles Uint8Array with special characters', () => {
-    // This creates a Uint8Array that will contain '+' and '/' in its base64 representation
-    const input = new Uint8Array([255, 255, 255, 255]);
-    expect(toB64U(input)).toBe('_____w');
-  });
+  describe('URL-safe character conversion', () => {
+    it('converts + to -', () => {
+      // 251 (0xfb) in standard Base64 is '+w==', in Base64url is '-w'
+      const input = new Uint8Array([251]);
+      expect(toB64U(input)).toBe('-w');
+    });
 
-  it('removes padding characters', () => {
-    // This creates a Uint8Array that will have padding characters in its base64 representation
-    const input = new Uint8Array([1, 2, 3]);
-    expect(toB64U(input)).toBe('AQID');
+    it('converts / to _', () => {
+      // 63 (0x3f) in standard Base64 is 'Pw==', in Base64url is 'Pw'
+      const input = new Uint8Array([63]);
+      expect(toB64U(input)).toBe('Pw');
+    });
+
+    it('converts multiple + and / characters', () => {
+      // This creates a Uint8Array that will contain both '+' and '/' in its base64 representation
+      const input = new Uint8Array([251, 63, 251, 63]);
+      expect(toB64U(input)).toBe('-z_7Pw');
+    });
+
+    it('removes padding characters', () => {
+      // Test cases for different padding lengths
+      expect(toB64U(new Uint8Array([1, 2]))).toBe('AQI'); // 2 bytes -> no padding
+      expect(toB64U(new Uint8Array([1, 2, 3]))).toBe('AQID'); // 3 bytes -> no padding
+      expect(toB64U(new Uint8Array([1, 2, 3, 4]))).toBe('AQIDBA'); // 4 bytes -> no padding
+    });
   });
 
   it('handles large Uint8Array', () => {
@@ -34,12 +49,6 @@ describe('toB64U', () => {
     expect(result).not.toContain('+');
     expect(result).not.toContain('/');
     expect(result).not.toContain('=');
-  });
-
-  it('encodes Uint8Array to Base64url string with "-" character', () => {
-    // The byte 251 (0xfb) in standard Base64 is '+w==', in Base64url is '-w'
-    const input = new Uint8Array([251]);
-    expect(toB64U(input)).toBe('-w');
   });
 
   it('encodes a 32-byte Uint8Array with leading 0 correctly to Base64url', () => {

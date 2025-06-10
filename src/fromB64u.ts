@@ -1,4 +1,4 @@
-import { toByteArray } from 'base64-js';
+import { fromB64 } from './fromB64';
 
 /**
  * Converts a URL-safe Base64 string to a Uint8Array.
@@ -9,16 +9,9 @@ import { toByteArray } from 'base64-js';
  *
  * @param {string} b64u - The URL-safe Base64 string to convert
  * @returns {Uint8Array} The decoded Uint8Array
+ * @throws {Error} If the input contains invalid Base64 characters or has invalid padding
  */
-export const fromB64U = (b64u: string) => {
-  const base64 = b64u.replace(/-/g, '+').replace(/_/g, '/');
-  const padding = base64.length % 4;
-
-  if (padding > 0 && base64.charAt(base64.length - 1) === '=') {
-    throw new Error('Invalid Base64 padding');
-  }
-
-  const padded = padding ? base64 + '='.repeat(4 - padding) : base64;
-
-  return toByteArray(padded);
+export const fromB64U = (b64u: string): Uint8Array => {
+  const b64 = b64u.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '');
+  return fromB64(b64);
 };

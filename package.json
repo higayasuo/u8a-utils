@@ -1,6 +1,6 @@
 {
   "name": "u8a-utils",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A collection of utility functions for working with Uint8Arrays in TypeScript",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -46,8 +46,5 @@
     "vite": "^6.2.6",
     "vite-plugin-dts": "^3.7.3",
     "vitest": "^3.1.1"
-  },
-  "peerDependencies": {
-    "base64-js": "^1.5.1"
   }
 }

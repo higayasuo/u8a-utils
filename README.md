@@ -23,6 +23,8 @@ import {
   fromB64U,
   ensureUint8Array,
   isUint8Array,
+  fromB64,
+  toB64,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -79,6 +81,14 @@ const isU8a = isUint8Array(new Uint8Array([1, 2, 3]));
 const encoded = new TextEncoder().encode('hello');
 const ensured = ensureUint8Array(encoded);
 // ensured: Uint8Array [104, 101, 108, 108, 111]
+
+// Convert Uint8Array to standard Base64 string
+const b64 = toB64(new Uint8Array([1, 2, 3, 4]));
+// b64: "AQIDBA=="
+
+// Convert standard Base64 string to Uint8Array
+const bytes3 = fromB64('AQIDBA==');
+// bytes3: Uint8Array [1, 2, 3, 4]
 ```
 
 ## API
@@ -225,6 +235,34 @@ Ensures the input value is a Uint8Array. This function is particularly useful wh
 #### Returns
 
 A Uint8Array representing the input value
+
+### fromB64(value: string): Uint8Array
+
+Converts a standard Base64 string to a Uint8Array.
+
+#### Parameters
+
+- `value`: The standard Base64 string to convert
+
+#### Returns
+
+A Uint8Array representing the value of the input Base64 string
+
+#### Throws
+
+- `Error` if the input contains invalid Base64 characters or has invalid padding
+
+### toB64(value: Uint8Array): string
+
+Converts a Uint8Array to a standard Base64 string.
+
+#### Parameters
+
+- `value`: The Uint8Array to convert
+
+#### Returns
+
+A standard Base64 string (using '+' and '/', and with padding)
 
 ## Development
 

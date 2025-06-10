@@ -3,65 +3,98 @@ import { fromB64U } from '../fromB64U';
 import { toB64U } from '../toB64U';
 
 describe('fromB64U', () => {
-  it('converts empty string to empty Uint8Array', () => {
-    expect(fromB64U('')).toEqual(new Uint8Array());
+  describe('valid inputs', () => {
+    it('converts empty string to empty Uint8Array', () => {
+      expect(fromB64U('')).toEqual(new Uint8Array());
+    });
+
+    it('converts URL-safe Base64 to Uint8Array', () => {
+      const input = 'AAECAwQF';
+      expect(fromB64U(input)).toEqual(new Uint8Array([0, 1, 2, 3, 4, 5]));
+    });
+
+    it('converts URL-safe Base64 with special characters to Uint8Array', () => {
+      const input = '__79_A';
+      expect(fromB64U(input)).toEqual(new Uint8Array([255, 254, 253, 252]));
+    });
+
+    it('handles URL-safe Base64 with padding', () => {
+      const input = 'AQIDBA==';
+      expect(fromB64U(input)).toEqual(new Uint8Array([1, 2, 3, 4]));
+    });
+
+    it('handles URL-safe Base64 without padding', () => {
+      const input = 'AQID';
+      expect(fromB64U(input)).toEqual(new Uint8Array([1, 2, 3]));
+    });
+
+    it('decodes Base64url string with "-" character to Uint8Array', () => {
+      const input = '-w';
+      expect(fromB64U(input)).toEqual(new Uint8Array([251]));
+    });
   });
 
-  it('converts URL-safe Base64 to Uint8Array', () => {
-    const input = 'AAECAwQF';
-    expect(fromB64U(input)).toEqual(new Uint8Array([0, 1, 2, 3, 4, 5]));
+  describe('round-trip conversion', () => {
+    it('works correctly for small data', () => {
+      const original = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+      const b64u = toB64U(original);
+      const result = fromB64U(b64u);
+      expect(result).toEqual(original);
+    });
+
+    it('works correctly for large data', () => {
+      const original = new Uint8Array(1000).fill(1);
+      const b64u = toB64U(original);
+      const result = fromB64U(b64u);
+      expect(result).toEqual(original);
+    });
+
+    it('works correctly for random data', () => {
+      const original = new Uint8Array(100);
+      for (let i = 0; i < original.length; i++) {
+        original[i] = Math.floor(Math.random() * 256);
+      }
+      const b64u = toB64U(original);
+      const result = fromB64U(b64u);
+      expect(result).toEqual(original);
+    });
   });
 
-  it('converts URL-safe Base64 with special characters to Uint8Array', () => {
-    const input = '__79_A';
-    expect(fromB64U(input)).toEqual(new Uint8Array([255, 254, 253, 252]));
-  });
+  describe('error cases', () => {
+    it('throws error for invalid padding at the end of the string', () => {
+      expect(() => fromB64U('AQIDBA=')).toThrow('Invalid character');
+    });
 
-  it('handles URL-safe Base64 with padding', () => {
-    const input = 'AQIDBA==';
-    expect(fromB64U(input)).toEqual(new Uint8Array([1, 2, 3, 4]));
-  });
+    it('throws error for invalid padding with multiple padding characters', () => {
+      expect(() => fromB64U('AQIDBA===')).toThrow('Invalid character');
+    });
 
-  it('handles URL-safe Base64 without padding', () => {
-    const input = 'AQID';
-    expect(fromB64U(input)).toEqual(new Uint8Array([1, 2, 3]));
-  });
+    it('throws error for invalid Base64 characters', () => {
+      const invalidChars = [
+        '!',
+        '@',
+        '#',
+        '$',
+        '%',
+        '^',
+        '&',
+        '*',
+        '(',
+        ')',
+        ' ',
+        '\n',
+        '\t',
+      ];
 
-  it('round-trip conversion works correctly', () => {
-    const original = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
-    const b64u = toB64U(original);
-    const result = fromB64U(b64u);
-    expect(result).toEqual(original);
-  });
+      for (const char of invalidChars) {
+        const invalidB64U = `SGVsbG8${char}V29ybGQ=`;
+        expect(() => fromB64U(invalidB64U)).toThrow('Invalid character');
+      }
+    });
 
-  it('handles large Uint8Array', () => {
-    const original = new Uint8Array(1000).fill(1);
-    const b64u = toB64U(original);
-    const result = fromB64U(b64u);
-    expect(result).toEqual(original);
-  });
-
-  it('handles random data', () => {
-    const original = new Uint8Array(100);
-    for (let i = 0; i < original.length; i++) {
-      original[i] = Math.floor(Math.random() * 256);
-    }
-    const b64u = toB64U(original);
-    const result = fromB64U(b64u);
-    expect(result).toEqual(original);
-  });
-
-  it('decodes Base64url string with "-" character to Uint8Array', () => {
-    // The byte 251 (0xfb) in standard Base64 is '+w==', in Base64url is '-w=='
-    const input = '-w';
-    expect(fromB64U(input)).toEqual(new Uint8Array([251]));
-  });
-
-  it('throws error for invalid padding at the end of the string', () => {
-    expect(() => fromB64U('AQIDBA=')).toThrow('Invalid Base64 padding');
-  });
-
-  it('throws error for invalid padding with multiple padding characters', () => {
-    expect(() => fromB64U('AQIDBA===')).toThrow('Invalid Base64 padding');
+    it('throws error for string with only invalid characters', () => {
+      const invalidOnly = '!@#$%^&*()';
+      expect(() => fromB64U(invalidOnly)).toThrow('Invalid character');
+    });
   });
 });
