@@ -1,4 +1,4 @@
-import { fromB64 } from './fromB64';
+import { decodeBase64 } from './decodeBase64';
 
 /**
  * Converts a URL-safe Base64 string to a Uint8Array.
@@ -11,7 +11,14 @@ import { fromB64 } from './fromB64';
  * @returns {Uint8Array} The decoded Uint8Array
  * @throws {Error} If the input contains invalid Base64 characters or has invalid padding
  */
-export const fromB64U = (b64u: string): Uint8Array => {
+export const decodeBase64Url = (b64u: string): Uint8Array => {
   const b64 = b64u.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '');
-  return fromB64(b64);
+  return decodeBase64(b64);
+};
+
+/**
+ * @deprecated ⚠️ DEPRECATED: Use decodeBase64Url instead ⚠️
+ */
+export const fromB64U = (b64u: string): Uint8Array => {
+  return decodeBase64Url(b64u);
 };

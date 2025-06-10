@@ -17,14 +17,14 @@ import {
   toUint64BE,
   toUint32BE,
   writeUInt32BE,
-  fromHex,
-  toHex,
-  toB64U,
-  fromB64U,
+  decodeHex,
+  encodeHex,
+  encodeBase64Url,
+  decodeBase64Url,
   ensureUint8Array,
   isUint8Array,
-  fromB64,
-  toB64,
+  decodeBase64,
+  encodeBase64,
 } from 'u8a-utils';
 
 // Concatenate multiple Uint8Arrays
@@ -58,19 +58,19 @@ writeUInt32BE(buf, 0x12345678);
 // buf: Uint8Array [0x12, 0x34, 0x56, 0x78]
 
 // Convert Uint8Array to hexadecimal string
-const hex = toHex(new Uint8Array([0x0a, 0x1b, 0x2c]));
+const hex = encodeHex(new Uint8Array([0x0a, 0x1b, 0x2c]));
 // hex: "0a1b2c"
 
 // Convert hexadecimal string to Uint8Array
-const bytes = fromHex('0a1b2c');
+const bytes = decodeHex('0a1b2c');
 // bytes: Uint8Array [10, 27, 44]
 
 // Convert Uint8Array to URL-safe Base64 string
-const b64u = toB64U(new Uint8Array([1, 2, 3, 4]));
+const b64u = encodeBase64Url(new Uint8Array([1, 2, 3, 4]));
 // b64u: "AQIDBA"
 
 // Convert URL-safe Base64 string to Uint8Array
-const bytes2 = fromB64U('AQIDBA');
+const bytes2 = decodeBase64Url('AQIDBA');
 // bytes2: Uint8Array [1, 2, 3, 4]
 
 // Check if a value is a Uint8Array or Uint8Array-like object
@@ -83,11 +83,11 @@ const ensured = ensureUint8Array(encoded);
 // ensured: Uint8Array [104, 101, 108, 108, 111]
 
 // Convert Uint8Array to standard Base64 string
-const b64 = toB64(new Uint8Array([1, 2, 3, 4]));
+const b64 = encodeBase64(new Uint8Array([1, 2, 3, 4]));
 // b64: "AQIDBA=="
 
 // Convert standard Base64 string to Uint8Array
-const bytes3 = fromB64('AQIDBA==');
+const bytes3 = decodeBase64('AQIDBA==');
 // bytes3: Uint8Array [1, 2, 3, 4]
 ```
 
@@ -160,7 +160,7 @@ Writes a 32-bit unsigned integer to a Uint8Array in big-endian format.
 
 - `RangeError` if the value is not in the range [0, MAX_INT32 - 1]
 
-### toHex(value: Uint8Array): string
+### encodeHex(value: Uint8Array): string
 
 Converts a Uint8Array to a hexadecimal string.
 
@@ -172,7 +172,7 @@ Converts a Uint8Array to a hexadecimal string.
 
 A string representing the hexadecimal value of the input Uint8Array
 
-### fromHex(value: string): Uint8Array
+### decodeHex(value: string): Uint8Array
 
 Converts a hexadecimal string to a Uint8Array.
 
@@ -188,7 +188,7 @@ A Uint8Array representing the value of the input hexadecimal string
 
 - `Error` if the input string is not a valid hexadecimal string
 
-### toB64U(value: Uint8Array): string
+### encodeBase64Url(value: Uint8Array): string
 
 Converts a Uint8Array to a URL-safe Base64 string.
 
@@ -200,7 +200,7 @@ Converts a Uint8Array to a URL-safe Base64 string.
 
 A URL-safe Base64 string (using '-' and '\_' instead of '+' and '/', and without padding)
 
-### fromB64U(value: string): Uint8Array
+### decodeBase64Url(value: string): Uint8Array
 
 Converts a URL-safe Base64 string to a Uint8Array.
 
@@ -236,7 +236,7 @@ Ensures the input value is a Uint8Array. This function is particularly useful wh
 
 A Uint8Array representing the input value
 
-### fromB64(value: string): Uint8Array
+### decodeBase64(value: string): Uint8Array
 
 Converts a standard Base64 string to a Uint8Array.
 
@@ -252,7 +252,7 @@ A Uint8Array representing the value of the input Base64 string
 
 - `Error` if the input contains invalid Base64 characters or has invalid padding
 
-### toB64(value: Uint8Array): string
+### encodeBase64(value: Uint8Array): string
 
 Converts a Uint8Array to a standard Base64 string.
 
@@ -263,6 +263,17 @@ Converts a Uint8Array to a standard Base64 string.
 #### Returns
 
 A standard Base64 string (using '+' and '/', and with padding)
+
+## Deprecated Functions
+
+The following functions are deprecated and will be removed in a future version. Please use the new function names instead:
+
+- `fromHex` → `decodeHex`
+- `toHex` → `encodeHex`
+- `fromB64` → `decodeBase64`
+- `toB64` → `encodeBase64`
+- `fromB64U` → `decodeBase64Url`
+- `toB64U` → `encodeBase64Url`
 
 ## Development
 

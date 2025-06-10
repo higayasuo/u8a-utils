@@ -5,7 +5,7 @@
  * @returns A Uint8Array representing the value of the input hexadecimal string.
  * @throws {Error} If the input string is not a valid hexadecimal string.
  */
-export const fromHex = (value: string): Uint8Array => {
+export const decodeHex = (value: string): Uint8Array => {
   // Remove whitespace
   const cleaned = value.replace(/\s/g, '');
   // Ensure even length
@@ -24,4 +24,11 @@ export const fromHex = (value: string): Uint8Array => {
   }
 
   return new Uint8Array(bytes.map((byte) => parseInt(byte, 16)));
+};
+
+/**
+ * @deprecated ⚠️ DEPRECATED: Use decodeHex instead ⚠️
+ */
+export const fromHex = (value: string): Uint8Array => {
+  return decodeHex(value);
 };

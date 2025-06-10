@@ -5,7 +5,7 @@
  * @param {Uint8Array} input - The Uint8Array to convert
  * @returns {string} The Base64 encoded string
  */
-export const toB64 = (input: Uint8Array): string => {
+export const encodeBase64 = (input: Uint8Array): string => {
   const CHUNK_SIZE = 0x8000;
   const arr = [];
 
@@ -15,4 +15,11 @@ export const toB64 = (input: Uint8Array): string => {
   }
 
   return btoa(arr.join(''));
+};
+
+/**
+ * @deprecated ⚠️ DEPRECATED: Use encodeBase64 instead ⚠️
+ */
+export const toB64 = (input: Uint8Array): string => {
+  return encodeBase64(input);
 };
