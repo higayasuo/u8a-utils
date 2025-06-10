@@ -1,4 +1,4 @@
-import { fromByteArray } from 'base64-js';
+import { toB64 } from './toB64';
 
 /**
  * Converts a Uint8Array to a URL-safe Base64 string.
@@ -11,8 +11,5 @@ import { fromByteArray } from 'base64-js';
  * @returns {string} A URL-safe Base64 encoded string
  */
 export const toB64U = (u8a: Uint8Array) => {
-  return fromByteArray(u8a)
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+  return toB64(u8a).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 };
