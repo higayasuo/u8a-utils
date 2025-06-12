@@ -27,5 +27,11 @@ export const ensureUint8Array = (value: Uint8Array): Uint8Array => {
   if (value instanceof Uint8Array) {
     return value;
   }
+
+  if (ArrayBuffer.isView(value)) {
+    const view = value as ArrayBufferView;
+    return new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
+  }
+
   return Uint8Array.from(value);
 };
